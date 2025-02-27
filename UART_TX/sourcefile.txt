@@ -1,0 +1,6 @@
+TX_FSM.v
+MUX.v
+Parity_Calc.v
+Serializer.v
+UART_TX.v
+UART_TX_tb.v
