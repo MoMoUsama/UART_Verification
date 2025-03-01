@@ -4,7 +4,7 @@ module UART #(parameter DW=8)(
 	input rst,
 	input RX_IN, 
 	input [DW-1:0] P_DATA, //fifo
-	input empty_flag, //fifo
+	input data_valid, //fifo (data valid to  tx)
 	input par_en,par_type, //reg file
 	input [5:0] prescale, //reg file
 	
@@ -25,7 +25,7 @@ UART_TX uart_tx(
 		.PARALLEL_DATA_TOP(P_DATA),
 		.PARITY_TYPE_TOP(par_type),
 		.PARITY_EN_TOP(par_en),
-		.DATA_VALID_TOP(!empty_flag),
+		.DATA_VALID_TOP(data_valid),
 		
 		.SER_OUT_TOP(TX_OUT),
 		.BUSY_TOP(BUSY)
