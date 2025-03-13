@@ -7,8 +7,8 @@ class VSEQ extends uvm_sequence #(uvm_sequence_item);
 	TX_Sequence tx_seq;  
 	
 	// Handles for the target sequencers:
-	Sequencer tx_sqr; 
-	Sequencer rx_sqr;
+	Sequencer #(TX_Transaction) tx_sqr; 
+	Sequencer #(RX_Transaction) rx_sqr;
 	
   function new(string name = "VSEQ");
     super.new(name);

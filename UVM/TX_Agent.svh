@@ -1,7 +1,7 @@
 class TX_Agent extends uvm_agent;
     `uvm_component_utils(TX_Agent)
 	
-    Sequencer tx_sqr;
+    Sequencer #(TX_Transaction) tx_sqr;
     TX_Driver tx_drv;
     TX_Monitor tx_mon;
     uvm_analysis_port#(TX_Transaction) tx_agent_ap;
@@ -15,12 +15,12 @@ class TX_Agent extends uvm_agent;
         super.build_phase(phase);
 		
         if(!uvm_config_db#(virtual TX_IF)::get(this,"","TXvif",TXvif))
-            `uvm_error("TX_Agent","Can't get TXvif from the config db")
+            uvm_report_error("TX_Agent","Can't get TXvif from the config db",UVM_LOW);
 			
         uvm_config_db#(virtual TX_IF)::set(this,"tx_drv","TXvif",TXvif);
         uvm_config_db#(virtual TX_IF)::set(this,"tx_mon","TXvif",TXvif);
 		
-        tx_sqr=Sequencer::type_id::create("tx_sqr",this);
+        tx_sqr=Sequencer #(TX_Transaction)::type_id::create("tx_sqr",this);
         tx_drv=TX_Driver::type_id::create("tx_drv",this);
         tx_mon=TX_Monitor::type_id::create("tx_mon",this);
 		
@@ -30,7 +30,7 @@ class TX_Agent extends uvm_agent;
 	
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
-        tx_drv.seq_item_port.connect(sqr.seq_item_export); 
+        tx_drv.seq_item_port.connect(tx_sqr.seq_item_export); 
         tx_mon.analysis_port.connect(this.tx_agent_ap); 
     endfunction
 	

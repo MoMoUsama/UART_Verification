@@ -16,7 +16,7 @@ class TX_Driver extends uvm_driver#(TX_Transaction);
             `uvm_error("Driver","Can't get TX_IF from the config db")
 	
         tx_item=TX_Transaction::type_id::create("tx_item");
-		seq_item_port = new uvm_seq_item_pull_port("seq_item_port",this);
+		seq_item_port = new("seq_item_port",this);
 
     endfunction
 	
@@ -39,6 +39,7 @@ class TX_Driver extends uvm_driver#(TX_Transaction);
 	endtask
 	
     task run_phase(uvm_phase phase);
+	    super.run_phase(phase);
         forever begin
         seq_item_port.get_next_item(tx_item);
 		

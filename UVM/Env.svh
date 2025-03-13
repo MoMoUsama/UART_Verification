@@ -24,8 +24,8 @@ class Env extends uvm_env;
         if(!uvm_config_db#(Config_Obj)::get(this,"","conf",conf))
             `uvm_error("Env","Can't get configuration object from the config db")
 			
-		TXvif = conf.TXvif;
-		RXvif = conf.RXvif;
+		TXvif = conf.tx_vif;
+		RXvif = conf.rx_vif;
 		
         uvm_config_db#(virtual TX_IF)::set(this,"tx_agent","TXvif",TXvif);
 		uvm_config_db#(virtual RX_IF)::set(this,"rx_agent","RXvif",RXvif);
@@ -39,7 +39,9 @@ class Env extends uvm_env;
 		
         rx_agent.rx_agent_ap.connect(scb.rx_scb_imp);
         rx_agent.rx_agent_ap.connect(cov.rx_sub_imp);
-		`uvm_info("Env","connect phase done in the Env")
+		//`uvm_info("ID", "Message", UVM_MEDIUM)
+		`uvm_info("Env", "connect phase done in the Env", UVM_MEDIUM)
+
 		
     endfunction
 	

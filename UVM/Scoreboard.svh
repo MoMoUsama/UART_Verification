@@ -1,8 +1,18 @@
+`ifndef UVM_ANALYSIS_IMP_TX_DEFINED
+`define UVM_ANALYSIS_IMP_TX_DEFINED
+`uvm_analysis_imp_decl(_tx)
+`endif
+
+`ifndef UVM_ANALYSIS_IMP_RX_DEFINED
+`define UVM_ANALYSIS_IMP_RX_DEFINED
+`uvm_analysis_imp_decl(_rx)
+`endif
+
 class Scoreboard extends uvm_scoreboard;
     `uvm_component_utils(Scoreboard)
 	
-    uvm_analysis_imp#(TX_Transaction,Scoreboard) tx_scb_imp;
-	uvm_analysis_imp#(RX_Transaction,Scoreboard) rx_scb_imp;
+    uvm_analysis_imp_tx#(TX_Transaction,Scoreboard) tx_scb_imp;
+	uvm_analysis_imp_rx#(RX_Transaction,Scoreboard) rx_scb_imp;
 	
     function new (string name="Scoreboard", uvm_component parent =null);
         super.new(name,parent);
@@ -16,6 +26,10 @@ class Scoreboard extends uvm_scoreboard;
 	
     function void connect_phase(uvm_phase phase);
         super.connect_phase(phase);
+    endfunction
+	
+    virtual function void write(uvm_sequence_item t);
+        $display("inside write() of the subscriber");
     endfunction
 	
     function void write_tx(input TX_Transaction item);
@@ -78,7 +92,7 @@ class Scoreboard extends uvm_scoreboard;
 				`uvm_warning("SCOREBOARD", "RX Transaction is invalid")
 			end
 
-			if (rx_item.stp_err) begin
+			if (rx_item.stop_err) begin
 				`uvm_error("SCOREBOARD", "Stop bit error detected")
 			end else begin
 				`uvm_info("SCOREBOARD", "Stop bit check passed", UVM_MEDIUM)

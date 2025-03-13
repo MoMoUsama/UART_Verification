@@ -20,17 +20,17 @@ class TX_Transaction extends uvm_sequence_item;
         super.new(name);
     endfunction
 
-    task print_tr(input string class_name);
+    function void print_tr(input string class_name);
         $display("%0s :%0t TX_Transaction_ID = %0d", class_name, $time,transaction_id);
-        $display("Inputs : P_DATA = %0d empty_flag = %0d par_en = %0d par_type = %0d prescale = %0d",
-                 P_DATA, empty_flag, par_en, par_type, prescale);
+        $display("Inputs : P_DATA = %0d  par_en = %0d par_type = %0d",
+                 P_DATA, par_en, par_type);
         $display("Outputs: TX_OUT = %0d BUSY = %0d", TX_OUT, BUSY);
-    endtask
+    endfunction
 	
     function void do_copy(uvm_object rhs);
         TX_Transaction tx;
         if (!$cast(tx, rhs)) begin
-            `uvm_error("COPY", "Failed to cast rhs to TX_Transaction")
+            uvm_report_error("COPY", "Failed to cast rhs to TX_Transaction",UVM_LOW);
             return;
         end
 

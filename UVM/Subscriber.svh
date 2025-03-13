@@ -1,10 +1,23 @@
-class Subscriber extends uvm_subscriber;
+/* write() must be implemnted */
+
+// First, declare the custom implementation types
+`ifndef UVM_ANALYSIS_IMP_TX_DEFINED
+`define UVM_ANALYSIS_IMP_TX_DEFINED
+`uvm_analysis_imp_decl(_tx)
+`endif
+
+`ifndef UVM_ANALYSIS_IMP_RX_DEFINED
+`define UVM_ANALYSIS_IMP_RX_DEFINED
+`uvm_analysis_imp_decl(_rx)
+`endif
+
+class Subscriber extends uvm_subscriber#(uvm_sequence_item);
     `uvm_component_utils(Subscriber)
 	
     TX_Transaction tx_item;
 	RX_Transaction rx_item;
-    uvm_analysis_imp#(TX_Transaction,Subscriber) tx_sub_imp;
-	uvm_analysis_imp#(RX_Transaction,Subscriber) rx_sub_imp;
+    uvm_analysis_imp_tx#(TX_Transaction,Subscriber) tx_sub_imp;
+	uvm_analysis_imp_rx#(RX_Transaction,Subscriber) rx_sub_imp;
 	
     covergroup tx_cg;
 	
@@ -89,6 +102,10 @@ class Subscriber extends uvm_subscriber;
     virtual function void write_tx(TX_Transaction t);
         tx_item.copy(t);
         tx_cg.sample(); //sample when a new transaction arrives
+    endfunction
+
+    virtual function void write(uvm_sequence_item t); //the type must be the same as the class type parameter
+        $display("inside write() of the subscriber");
     endfunction
 	
     virtual function void write_rx(RX_Transaction t);

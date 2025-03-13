@@ -28,14 +28,16 @@ class Test extends uvm_test;
         super.connect_phase(phase);
     endfunction
 	
-	function init_vseq();
+	function void init_vseq();
 		vseq.tx_sqr = env.tx_agent.tx_sqr;
 		vseq.rx_sqr = env.rx_agent.rx_sqr;
 	endfunction
 	
-	function run_phase(uvm_phase phse);
+	task run_phase(uvm_phase phase);
+		super.run_phase(phase);
 		phase.raise_objection(this);
 		init_vseq();
 		vseq.start(null);
 		phase.drop_objection(this);
-endclass:Test
+	endtask
+endclass

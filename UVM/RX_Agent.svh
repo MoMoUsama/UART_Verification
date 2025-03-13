@@ -1,7 +1,7 @@
 class RX_Agent extends uvm_agent;
     `uvm_component_utils(RX_Agent)
 	
-    Sequencer rx_sqr;
+    Sequencer #(RX_Transaction) rx_sqr;
     RX_Driver rx_drv;
     RX_Monitor rx_mon;
     uvm_analysis_port#(RX_Transaction) rx_agent_ap;
@@ -15,12 +15,12 @@ class RX_Agent extends uvm_agent;
         super.build_phase(phase);
 		
         if(!uvm_config_db#(virtual RX_IF)::get(this,"","RXvif",RXvif))
-            `uvm_error("RX_Agent","Can't get RXvif from the config db")
+            uvm_report_error("RX_Agent","Can't get RXvif from the config db",UVM_LOW);
 			
         uvm_config_db#(virtual RX_IF)::set(this,"rx_drv","RXvif",RXvif);
         uvm_config_db#(virtual RX_IF)::set(this,"rx_mon","RXvif",RXvif);
 		
-        rx_sqr=Sequencer::type_id::create("rx_sqr",this);
+        rx_sqr=Sequencer #(RX_Transaction)::type_id::create("rx_sqr",this);
         rx_drv=RX_Driver::type_id::create("rx_drv",this);
         rx_mon=RX_Monitor::type_id::create("rx_mon",this);
 		

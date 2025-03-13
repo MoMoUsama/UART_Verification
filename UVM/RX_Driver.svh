@@ -16,7 +16,7 @@ class RX_Driver extends uvm_driver#(RX_Transaction);
             `uvm_error("Driver","Can't get RX_IF from the config db")
 	
         rx_item=RX_Transaction::type_id::create("rx_item");
-		seq_item_port = new uvm_seq_item_pull_port("seq_item_port",this);
+		seq_item_port = new("seq_item_port",this);
 
     endfunction
 	
@@ -32,7 +32,7 @@ class RX_Driver extends uvm_driver#(RX_Transaction);
 		RXvif.prescale  <= rx_item.prescale;
 		RXvif.par_type  <= rx_item.par_type;
 		RXvif.par_en    <= rx_item.par_en;
-		TXvif.rst       <= tx_item.rst;
+		RXvif.rst       <= rx_item.rst;
 		
 		// Start bit
 		RXvif.RX_IN <= rx_item.start_bit;
@@ -46,13 +46,32 @@ class RX_Driver extends uvm_driver#(RX_Transaction);
 		
 		// Parity bit 
 		if(rx_item.par_en) begin
-			bit parity;    
-			RXvif.RX_IN <= rx_item.parity;
+			bit parity;
+			parity = ^rx_item.RX_IN;
+			if(rx_item.valid_parity) begin //valid parity
+				if(rx_item.par_type) begin //even
+					RXvif.RX_IN <= parity;
+				end
+				
+				else begin 
+					RXvif.RX_IN <= ~(parity);
+				end
+			end
+			else begin //wrong parity
+				if(rx_item.par_type) begin //even
+					RXvif.RX_IN <= ~(parity);
+				end
+				
+				else begin 
+					RXvif.RX_IN <= (parity);
+				end
+			end
+
 			repeat(rx_item.prescale) @(posedge RXvif.clk);
 		end
 		
 		// Stop bit
-		RXvif.RX_IN <= stop_bit;
+		RXvif.RX_IN <= rx_item.stop_bit;
 		repeat(rx_item.prescale) @(posedge RXvif.clk);  
 		
 		// Return to idle
@@ -61,6 +80,7 @@ class RX_Driver extends uvm_driver#(RX_Transaction);
 	
 	
     task run_phase(uvm_phase phase);
+		super.run_phase(phase);
         forever begin
         seq_item_port.get_next_item(rx_item);
 		

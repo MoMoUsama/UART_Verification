@@ -13,16 +13,17 @@ class TX_Monitor extends uvm_monitor;
         super.build_phase(phase);
         
         if(!uvm_config_db#(virtual TX_IF)::get(this,"","TXvif",TXvif))
-            `uvm_error("Monitor","Can't get TX_IF from the config db")
+            uvm_report_error("Monitor","Can't get TX_IF from the config db",UVM_LOW);
             
         analysis_port = new("analysis_port", this);
         tx_item = TX_Transaction::type_id::create("tx_item");
     endfunction
     
     task run_phase(uvm_phase phase);
+		super.run_phase(phase);
         forever begin
             collect_transaction();
-            analysis_port.write_tx(tx_item);
+            analysis_port.write(tx_item);
 			$display("Transaction Written Successfully to Scoreboard and Subscriber");
 			tx_item.print_tr("TX_Monitor");
         end
@@ -42,7 +43,7 @@ class TX_Monitor extends uvm_monitor;
 		@(negedge TXvif.clk);
         for(int i=0; i<8; i++) begin
             @(negedge TXvif.clk);
-            tx_item.sampled_bits[i] = TXvif.TX_OUT;
+            tx_item.TX_OUT[i] = TXvif.TX_OUT;
         end
          
 		 //parity
