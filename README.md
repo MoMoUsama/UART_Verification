@@ -8,5 +8,5 @@ design and UVM verification environment for UART block (RX and TX)
 ## Verification Envrinment Architecture
 ![ENV](https://github.com/user-attachments/assets/b742bbfb-951c-4277-82d3-d058d48faed1)
 
-- check the Dos Folder for the verification Plan and the specs 
+- check the Dos Folder for the verification Plan and specs files
 
