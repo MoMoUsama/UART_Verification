@@ -3,7 +3,7 @@ class TX_Driver extends uvm_driver#(TX_Transaction);
 	
     TX_Transaction tx_item;
     virtual TX_IF TXvif;                         //virtual interface handle
-	uvm_seq_item_pull_port#(TX_Transaction) seq_item_port;
+	//uvm_seq_item_pull_port#(TX_Transaction) seq_item_port; inherited from uvm_driver
 
     function new (string name="TX_Driver", uvm_component parent = null);
         super.new(name,parent);
@@ -16,7 +16,7 @@ class TX_Driver extends uvm_driver#(TX_Transaction);
             `uvm_error("Driver","Can't get TX_IF from the config db")
 	
         tx_item=TX_Transaction::type_id::create("tx_item");
-		seq_item_port = new("seq_item_port",this);
+		//seq_item_port = new("seq_item_port",this);
 
     endfunction
 	

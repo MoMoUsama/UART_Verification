@@ -51,7 +51,7 @@ module Top();
 	conf.tx_vif = TX_intf_inst;
 	conf.rx_vif = RX_intf_inst;
   conf.prescale = prescale;
-	uvm_config_db#(Config_Obj)::set(null,"uvm_test_top","config",conf);
+	uvm_config_db#(Config_Obj)::set(null,"uvm_test_top","conf",conf);
 	run_test("Test");
   end
 	

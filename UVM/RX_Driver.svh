@@ -3,7 +3,7 @@ class RX_Driver extends uvm_driver#(RX_Transaction);
 	
     RX_Transaction rx_item;
     virtual RX_IF RXvif;                         //virtual interface handle
-	uvm_seq_item_pull_port#(RX_Transaction) seq_item_port;
+	//uvm_seq_item_pull_port#(RX_Transaction) seq_item_port; inherited from uvm_driver
 
     function new (string name="RX_Driver", uvm_component parent = null);
         super.new(name,parent);
@@ -16,7 +16,7 @@ class RX_Driver extends uvm_driver#(RX_Transaction);
             `uvm_error("Driver","Can't get RX_IF from the config db")
 	
         rx_item=RX_Transaction::type_id::create("rx_item");
-		seq_item_port = new("seq_item_port",this);
+		//seq_item_port = new("seq_item_port",this);
 
     endfunction
 	
