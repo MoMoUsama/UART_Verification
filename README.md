@@ -11,7 +11,7 @@ The DUT (Design Under Test) is the **[UART 16550 IP core](https://github.com/fre
 ### Environment Architecture
 Below is a high-level diagram of the UVM environment (replace with your actual architecture diagram):  
 
-(./ENV_ARCH.png) 
+![Environment](ENV_ARCH.png)
 
  ### Environemnt Features 
 - Register Abstraction Layer (RAL) support for **backdoor and frontdoor accesses**  
