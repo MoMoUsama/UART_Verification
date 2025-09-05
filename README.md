@@ -5,7 +5,7 @@ UVM-based Verification for UART 16550 with Wihsbone Interface IP
 This project implements a Universal Verification Methodology (UVM) environment to verify the functionality of the UART 16550 core with a Wishbone interface.
 The UART 16550 core is widely used in embedded systems for serial communication, and this environment provides a reusable and scalable testbench for functional verification.
 
-The DUT (Design Under Test) is the **[UART 16550 IP core][(https://opencores.org/projects/uart16550](https://github.com/freecores/uart16550/tree/master))** developed and maintained by **OpenCores**. 
+The DUT (Design Under Test) is the **[UART 16550 IP core]((https://github.com/freecores/uart16550/tree/master))** developed and maintained by **OpenCores**. 
 .
 
 ### Environment Architecture
