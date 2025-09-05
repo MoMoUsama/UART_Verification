@@ -26,7 +26,8 @@ Below is a high-level diagram of the UVM environment (replace with your actual a
 - Easily extendable for **regression suites**  
 
 
-### Repository Structure```
+### Repository Structure
+```text
 ├── rtl/                # RTL sources (DUT and interface files)
 │   ├── uart_top.v
 │   ├── uart_wb.v
