@@ -5,14 +5,16 @@
 #vlib work
 
 # Compile RTL and UVM files
-vlog ./rtl/*.*v  #+cover
-vlog ./uvm/uart_pkg.sv ./UVM/top.sv 
+vlog -work work -sv +acc=rnbc ../REPO/rtl/*.*v
+vlog -sv -f files.f
+vlog ../REPO/uvm/top.sv 
 
 # Run simulation and load wave.do for waveform view
-vsim work.top +UVM_VERBOSITY=UVM_LOW -l simulation.log -do {
+# +UVM_CONFIG_DB_TRACE
+vsim work.top +acc=rnb +UVM_VERBOSITY=UVM_HIGH -l simulation.log -do {
     
     # Load waveform configuration
-    # do wave.do
+    do wave.do
 
     # Run simulation
     run -all;
