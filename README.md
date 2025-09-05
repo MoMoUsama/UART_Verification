@@ -26,35 +26,6 @@ Below is a high-level diagram of the UVM environment (replace with your actual a
 - Easily extendable for **regression suites**  
 
 
-### Repository Structure
-```text
-├── rtl/                # RTL sources (DUT and interface files)
-│   ├── uart_top.v
-│   ├── uart_wb.v
-│   └── ...
-├── uvm_env/            # UVM environment sources
-│   ├── tb_top.sv
-│   ├── uart_if.sv
-│   ├── uart_agent.sv
-│   ├── uart_driver.sv
-│   ├── uart_monitor.sv
-│   ├── uart_seq_item.sv
-│   ├── uart_sequencer.sv
-│   ├── uart_sequences.sv
-│   ├── uart_scoreboard.sv
-│   ├── uart_env.sv
-│   └── uart_test.sv
-├── ral/                # UVM Register Model
-│   ├── uart_reg_block.sv
-│   ├── uart_reg_model.sv
-│   └── ...
-├── sim/                # Simulation scripts
-│   ├── run.f
-│   ├── run.do
-│   ├── Makefile
-│   └── ...
-└── README.md
-```
 
 ### Getting Started
 
