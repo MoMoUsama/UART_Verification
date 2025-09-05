@@ -6,12 +6,15 @@ This project implements a Universal Verification Methodology (UVM) environment t
 The UART 16550 core is widely used in embedded systems for serial communication, and this environment provides a reusable and scalable testbench for functional verification.
 
 The DUT (Design Under Test) is the **[UART 16550 IP core](https://github.com/freecores/uart16550/tree/master)** developed and maintained by **OpenCores**. 
-.
+
+
 
 ### Environment Architecture
 Below is a high-level diagram of the UVM environment (replace with your actual architecture diagram):  
 
 ![Environment](ENV_ARCH.png)
+
+
 
  ### Environemnt Features 
 - Register Abstraction Layer (RAL) support for **backdoor and frontdoor accesses**  
@@ -22,7 +25,8 @@ Below is a high-level diagram of the UVM environment (replace with your actual a
 - Reset and **basic smoke tests** included  
 - Easily extendable for **regression suites**  
 
-### Repository Structure
+
+### Repository Structure```
 ├── rtl/                # RTL sources (DUT and interface files)
 │   ├── uart_top.v
 │   ├── uart_wb.v
@@ -49,6 +53,7 @@ Below is a high-level diagram of the UVM environment (replace with your actual a
 │   ├── Makefile
 │   └── ...
 └── README.md
+```
 
 ### Getting Started
 
