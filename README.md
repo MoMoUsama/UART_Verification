@@ -42,16 +42,6 @@ With Makefile:
 with a simulator-specific command (example for Questa):
 do run.do
 
-### Tests
-The environment provides several tests:
-Smoke Test – Sanity check after reset and register reads.
-Configuration Test – Randomized configurations (baud rate, stop bits, parity).
-Data Transmission Test – TX/RX data path verification.
-Interrupt Test – Interrupt enable/disable functionality.
-Wishbone Protocol Test – Validates DUT Wishbone compliance.
-You can create new tests by extending uart_base_test.
-
-
 ### Acknowledgements
 UART 16550 Core: Developed and maintained by OpenCores
 Thanks to the open-source hardware community for providing reusable cores and verification resources.
