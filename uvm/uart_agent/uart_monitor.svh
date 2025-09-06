@@ -1,15 +1,16 @@
 class uart_monitor extends uvm_monitor;
 
   virtual tx_intf vif;
-  uvm_analysis_port#(uart_seq_item) ap;
+  uvm_nonblocking_put_port #(uart_seq_item) mon2scb_port;
   Env_Config                       env_conf;
   
   `uvm_component_utils(uart_monitor)
 
   function new(string name="uart_monitor", uvm_component parent=null);
     super.new(name, parent);
-    ap = new("ap", this);
+	mon2scb_port = new("mon2scb_port", this);
   endfunction
+  
 
   function void build_phase(uvm_phase phase);
     super.build_phase(phase);
@@ -90,7 +91,7 @@ class uart_monitor extends uvm_monitor;
 			   default: expected_parity = 1'bx;
 			endcase
 
-			if (item.parity != expected_parity) item.has_error = 1;
+			if (item.parity != expected_parity) item.has_parity_error = 1;
 		end
 
 		// Collect stop bits (1 or 2 based on LCR[2])
@@ -102,10 +103,11 @@ class uart_monitor extends uvm_monitor;
 			else
 				stop_bits = 2.0;
 				
-		repeat($rtoi(stop_bits * wb_cycles_per_bit)) @(posedge vif.WBCLK);
-		if (vif.STX_PAD_O != 1) item.has_error = 1;  // Framing error
-
-		ap.write(item);
+		for (i = 0; i < stop_bits; i++) begin
+			repeat(wb_cycles_per_bit) @(posedge vif.WBCLK);
+			if (vif.STX_PAD_O != 1) item.has_stop_error = 1;  // Framing error
 		end
+		 void'(mon2scb_port.try_put(item));
+	end
   endtask
 endclass

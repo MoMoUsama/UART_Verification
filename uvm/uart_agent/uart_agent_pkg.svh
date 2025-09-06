@@ -1,8 +1,8 @@
 package uart_agent_pkg;
 
+  `include "uvm_macros.svh"
   import uvm_pkg::*;
   import Env_Config_pkg::*;
-  `include "uvm_macros.svh"
 
   `include "uart_seq_item.svh"
   `include "uart_driver.svh"

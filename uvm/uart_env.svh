@@ -7,7 +7,7 @@ class uart_env extends uvm_env;
   uvm_reg_predictor #(wb_seq_item) ral_predictor;
   Env_Config                       env_conf;
   uart_wb_reg_adapter              adapter;
-
+  uart_scoreboard                  scoreboard;
   `uvm_component_utils(uart_env)
 
   function new(string name="uart_env", uvm_component parent=null);
@@ -42,6 +42,9 @@ class uart_env extends uvm_env;
 	uvm_config_db#(virtual tx_intf)::set(this, "u_agent", "TX", env_conf.TX);
 	uvm_config_db#(virtual rx_intf)::set(this, "u_agent", "RX", env_conf.RX);
 	
+	//build scoreboard
+	scoreboard = uart_scoreboard::type_id::create("scoreboard", this);
+	
   endfunction
 
   function void connect_phase(uvm_phase phase);
@@ -53,7 +56,10 @@ class uart_env extends uvm_env;
     ral_predictor.adapter  = this.adapter;
     ral_model.default_map.set_sequencer(wb_agent.seqr, ral_predictor.adapter);
 	
-	// uart agent connections
+	// scoreboard connections
+	wb_agent.mon.ap.connect(scoreboard.wb_scb_imp);
+	u_agent.drv.drv2scb_port.connect(scoreboard.rx_scb_imp);
+	u_agent.mon.mon2scb_port.connect(scoreboard.tx_scb_imp);
   endfunction
 
 endclass

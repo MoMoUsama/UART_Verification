@@ -19,6 +19,7 @@ class uart_wb_driver extends uvm_driver #(wb_seq_item);
 	
     forever begin
 	    seq_item_port.get_next_item(tr);
+		`uvm_info("WB_DRIVER", $sformatf("@%0t: recieved TR: \n %s", $time/1ns, tr.sprint()), UVM_MEDIUM)
 		if(tr.rst) begin
 			vif.WBRST<= 1;
 			repeat(5) @(posedge vif.WBCLK);
@@ -49,7 +50,6 @@ class uart_wb_driver extends uvm_driver #(wb_seq_item);
 			vif.WB_WE  <= 0;
 			@(negedge vif.WBCLK);
 	    end 
-
       seq_item_port.item_done();
 	  $display("@%0t Item: \n %s drived SUCCESFULLY", $time/1ns, tr.sprint());
     end

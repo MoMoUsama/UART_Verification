@@ -2,10 +2,13 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 
   virtual rx_intf vif; // virtual interface to DUT
   Env_Config env_conf;
+  uvm_nonblocking_put_port #(uart_seq_item) drv2scb_port;
+  
   `uvm_component_utils(uart_driver)
 
   function new(string name="uart_driver", uvm_component parent=null);
     super.new(name, parent);
+	drv2scb_port = new("drv2scb_port", this);
   endfunction
 
   function void build_phase(uvm_phase phase);
@@ -27,7 +30,7 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 	uart_seq_item tr;
 	
 	super.run_phase(phase);
-	//phase.raise_objection(this);
+	phase.raise_objection(this);
 	
 	case(this.env_conf.lcr[1:0])
 		2'b00: n_bits = 5;
@@ -40,6 +43,8 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 	
     forever begin
 			seq_item_port.get_next_item(tr);
+			void'(drv2scb_port.try_put(tr));
+			
 			`uvm_info("UART Driver", $sformatf("Received Item:\n%s", tr.sprint()), UVM_MEDIUM)
 		
 			vif.SRX_PAD_I<= 'b0; //start
@@ -67,12 +72,14 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 
 			vif.SRX_PAD_I <= tr.stop;
 			repeat($rtoi(stop_bits * wb_cycles_per_bit)) @(posedge vif.WBCLK)
+			
+			@(posedge vif.WBCLK); 
 			seq_item_port.item_done();
 			
 			if(tr.last_item) break;
 			`uvm_info("UART Driver", $sformatf("@%0t:  Item drived SUCCESFULLY", $time/1ns), UVM_MEDIUM)
     end
 	`uvm_info("UART Driver", $sformatf("@%0t:  Sequence Completed", $time/1ns), UVM_MEDIUM)
-	//phase.drop_objection(this);
+	phase.drop_objection(this);
   endtask
 endclass

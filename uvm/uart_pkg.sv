@@ -16,6 +16,7 @@ package uart_pkg;
 	import uart_wb_agent_pkg::*;
 	import uart_agent_pkg::*;
 	import uart_sequences_pkg::*;
+	`include "uart_scoreboard.svh"
 	`include "uart_env.svh"
 	`include "uart_virtual_sequence.svh"
     `include "base_test.svh"

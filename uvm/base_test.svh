@@ -9,11 +9,11 @@ class base_test extends uvm_test;
         super.new(name,parent);
     endfunction
 	
-	task configure_test(bit [7:0] lcr, bit [15:0] dll);
+	function configure_test(bit [7:0] lcr, bit [15:0] dll);
 		this.env_conf.lcr = lcr;
 		this.env_conf.dll = dll;
 		this.env_conf.wb_cycles_per_bit = dll*16;
-	endtask
+	endfunction
 	
 	
     function void build_phase(uvm_phase phase);
@@ -33,7 +33,10 @@ class base_test extends uvm_test;
             `uvm_error("base_test","Can't get the IRQ Interface from the COnfig DB")
 
 		if(!uvm_config_db#(virtual modem_intf)::get(this,"","MODEM", env_conf.MODEM))
-            `uvm_error("base_test","Can't get the MODEM Interface from the COnfig DB")						
+            `uvm_error("base_test","Can't get the MODEM Interface from the COnfig DB")	
+
+		if(!uvm_config_db#(int)::get(this,"","SYS_CLK", env_conf.SYS_CLK_PERIOD))
+            `uvm_error("base_test","Can't get the SYS_CLK_PERIOD from the COnfig DB")				
 		
         env=uart_env::type_id::create("env",this);
         vseq=uart_virtual_sequence::type_id::create("vseq");

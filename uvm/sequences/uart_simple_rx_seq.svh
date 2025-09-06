@@ -27,6 +27,7 @@ class uart_simple_rx_seq extends uvm_sequence #(uart_seq_item);
 			else 					item.last_item = 0;
 			
 		    start_item(item);
+			`uvm_info("SIMPLE RX SEQUENCE", "after calling start_item()", UVM_MEDIUM)
 			if(!item.randomize())
 				`uvm_fatal("Randomization Failed", "Failed To Randomize uart_seq_item in Simple RX Sequence")
 				

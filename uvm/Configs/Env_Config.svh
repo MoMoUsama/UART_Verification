@@ -19,6 +19,8 @@ class Env_Config extends uvm_object;
   bit has_wb_agent = 1;
   bit has_scoreboard = 1;
   bit has_coverage = 1;
+  int SYS_CLK_PERIOD;
+  int tx_transactions;
   
   // Constructor
   function new(string name = "Env_Config");

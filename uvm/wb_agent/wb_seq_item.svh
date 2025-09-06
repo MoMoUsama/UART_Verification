@@ -7,13 +7,14 @@ class wb_seq_item extends uvm_sequence_item;
   
   
   // --------- Request ---------
-  rand bit [31:0]     addr;          // byte address
-  rand bit [31:0]     data;
+  rand bit [2:0]     addr;          // byte address
+  rand bit [7:0]     data;
   rand bit [3:0]      sel;           // byte enables
   rand int unsigned   pre_idle;      // cycles to wait before driving
   rand int unsigned   post_idle;     // cycles to wait after txn
   rand bit we;
-  bit rst;
+  bit rst, last_item;
+  bit [7:0] lcr;
 
   // --------- Response ---------
   bit                 ack;           // got ACK
@@ -29,8 +30,10 @@ class wb_seq_item extends uvm_sequence_item;
 
   `uvm_object_utils_begin(wb_seq_item)
     `uvm_field_int (addr,      UVM_ALL_ON)
-    `uvm_field_int (data,     UVM_ALL_ON)
-    `uvm_field_int (sel,       UVM_ALL_ON)
+    `uvm_field_int (lcr,     UVM_ALL_ON)
+	`uvm_field_int (data,     UVM_ALL_ON)
+    `uvm_field_int (last_item,       UVM_ALL_ON)
+	`uvm_field_int (sel,       UVM_ALL_ON)
 	`uvm_field_int (we,       UVM_ALL_ON)
 	`uvm_field_int (rst,       UVM_ALL_ON)
     `uvm_field_int (pre_idle,  UVM_ALL_ON | UVM_NOPRINT)

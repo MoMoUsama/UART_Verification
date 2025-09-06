@@ -5,14 +5,12 @@ class uart_agent extends uvm_agent;
   uart_monitor      mon;
   virtual tx_intf   tx_vif;
   virtual rx_intf   rx_vif;
-  uvm_analysis_port #(uart_seq_item) analysis_port;
   
   
   `uvm_component_utils(uart_agent)
 
   function new(string name="uart_agent", uvm_component parent=null);
     super.new(name, parent);
-	analysis_port = new("analysis_port", this);
   endfunction
 
   function void build_phase(uvm_phase phase);
@@ -37,6 +35,5 @@ class uart_agent extends uvm_agent;
 
   function void connect_phase(uvm_phase phase);
       drv.seq_item_port.connect(seqr.seq_item_export);
-	  mon.ap.connect(analysis_port);
   endfunction
 endclass

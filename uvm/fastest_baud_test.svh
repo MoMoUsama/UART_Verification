@@ -6,8 +6,13 @@ class  fastest_baud_test extends base_test;
     endfunction
 	
     function void build_phase(uvm_phase phase);
+		bit [7:0] lcr, fcr;
+		bit [15:0] dl;
         super.build_phase(phase);
-		super.configure_test(8'h03, 16'h0001);
+		lcr = 8'h03;
+		fcr = 8'hc0;
+		dl = 16'h0001;
+		super.configure_test(lcr, dl);
 	
 		if(super.env_conf==null) `uvm_fatal("CFG ERR", "env_conf not created")
 		uvm_config_db#(Env_Config)::set(this,"env*","env_conf", super.env_conf);
@@ -27,8 +32,9 @@ class  fastest_baud_test extends base_test;
 		super.run_phase(phase);
 		phase.raise_objection(this);
 		init_vseq();
+		`uvm_info("TEST", "DONE VSEG INIT", UVM_MEDIUM)
 		vseq.start(null);
 		phase.drop_objection(this);
 	endtask
-	
+
 endclass: fastest_baud_test
