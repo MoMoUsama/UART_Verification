@@ -21,6 +21,7 @@ class Env_Config extends uvm_object;
   bit has_coverage = 1;
   int SYS_CLK_PERIOD;
   int tx_transactions;
+  int rx_transactions;
   
   // Constructor
   function new(string name = "Env_Config");

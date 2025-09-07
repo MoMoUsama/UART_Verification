@@ -52,11 +52,9 @@ class uart_wb_reg_adapter extends uvm_reg_adapter;
 
 			if(dlab && rw.addr == 'hA  ) begin //switch to DLL
 				wb_item.addr = 'd0;
-				wb_item.lcr = 8'h83;
 			end
 			else if(dlab && rw.addr == 'hB  ) begin //switch ro DLM
 				wb_item.addr = 'd1;
-				wb_item.lcr = 8'h83;
 			end
 			
   // Print the received reg_bus_op

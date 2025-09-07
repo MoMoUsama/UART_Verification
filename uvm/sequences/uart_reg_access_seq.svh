@@ -74,10 +74,4 @@ class uart_reg_access_seq extends base_seq;
 		  end
 		end
     endtask
-	
-	task transmit(ref uart_reg_block ral_model);
-		uvm_status_e status;
-		uvm_reg_data_t data;
-		ral_model.THR.write(status, 8'hAA, .parent(this));
-	endtask
 endclass: uart_reg_access_seq

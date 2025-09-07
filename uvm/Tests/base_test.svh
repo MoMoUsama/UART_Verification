@@ -9,10 +9,12 @@ class base_test extends uvm_test;
         super.new(name,parent);
     endfunction
 	
-	function configure_test(bit [7:0] lcr, bit [15:0] dll);
+	function configure_test(bit [7:0] lcr, bit [15:0] dll, int tx_transactions, rx_transactions);
 		this.env_conf.lcr = lcr;
 		this.env_conf.dll = dll;
 		this.env_conf.wb_cycles_per_bit = dll*16;
+		this.env_conf.tx_transactions = tx_transactions;
+		this.env_conf.rx_transactions = rx_transactions;
 	endfunction
 	
 	

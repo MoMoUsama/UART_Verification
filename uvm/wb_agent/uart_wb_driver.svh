@@ -48,7 +48,7 @@ class uart_wb_driver extends uvm_driver #(wb_seq_item);
 			vif.WB_STB <= 0;
 			vif.WB_CYC <= 0;
 			vif.WB_WE  <= 0;
-			@(negedge vif.WBCLK);
+			//@(negedge vif.WBCLK);
 	    end 
       seq_item_port.item_done();
 	  $display("@%0t Item: \n %s drived SUCCESFULLY", $time/1ns, tr.sprint());

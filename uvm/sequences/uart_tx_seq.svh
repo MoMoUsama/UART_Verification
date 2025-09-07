@@ -29,10 +29,9 @@ class uart_tx_seq extends base_seq;
 	task transmit();
 	  uvm_status_e   status;
 	  uvm_reg_data_t tx_data;
-	  int tx_transactions = 25;
 	  localparam uvm_reg_data_t LAST_WORD = 8'hAA;
 	  // Repeat random writes
-	  repeat (tx_transactions) begin
+	  repeat (env_conf.tx_transactions) begin
 		tx_data = $urandom_range(0, 255); // constrain to byte range
 		ral_model.THR.write(status, tx_data, .parent(this));
 		

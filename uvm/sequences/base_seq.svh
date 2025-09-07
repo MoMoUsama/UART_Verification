@@ -7,6 +7,20 @@ class base_seq extends uvm_sequence #(wb_seq_item);
 		super.new(name);
 	endfunction
 
+    virtual task pre_body();
+		`uvm_info("Base Seq", $sformatf("In the Pre-Body"), UVM_LOW)
+		if(!uvm_config_db#(uart_reg_block)::get(null, "" , "ral_model", ral_model)) begin
+		  `uvm_fatal("NO_RM", "ral_model not found in config_db")
+		end
+		
+		env_conf = Env_Config::type_id::create("env_conf");
+		if(!uvm_config_db#(Env_Config)::get(m_sequencer, "" , "env_conf", env_conf)) begin
+		  `uvm_fatal("No_Config", "env_conf not found in config_db for the Sequence")
+		end
+		
+		`uvm_info("Base Seq", $sformatf("DONE  the Pre-Body"), UVM_LOW)
+    endtask
+	
 	task apply_reset(); //doesn't go through the RAL Adapter
 		wb_seq_item req;
 		`uvm_info(get_type_name(), "Applying Reset...", UVM_MEDIUM)
@@ -25,6 +39,7 @@ class base_seq extends uvm_sequence #(wb_seq_item);
 		logic [7:0] data;
 		
 		this.ral_model.LCR.poke(status,   8'h83, 	.parent(this));
+		env_conf.lcr = 8'h83; 
 		this.ral_model.LCR.peek(status,   data, 	.parent(this));
 		if(data !=8'h83)
 			`uvm_error("Back-door ERR", $sformatf("@%0t:  Failed to write 8'h80 in the LCR Through Backdoor",$time/1ns))
@@ -40,26 +55,12 @@ class base_seq extends uvm_sequence #(wb_seq_item);
 			`uvm_error("Front-door ERR", $sformatf("@%0t:  Failed to write %0h in the DLM Through Frontdoor",$time/1ns, dll[15:8]))
 			
 		this.ral_model.LCR.poke(status,   val, 	    .parent(this));
+		env_conf.lcr = val; 
 		this.ral_model.LCR.peek(status,   data, 	.parent(this));
 		if(data !=val)
 			`uvm_error("Back-door ERR", $sformatf("@%0t:  Failed to write %0h in the LCR Through Backdoor", $time/1ns, val))
 			
 		
 	endtask
-  
-  
-    virtual task pre_body();
-		`uvm_info("Base Seq", $sformatf("In the Pre-Body"), UVM_LOW)
-		if(!uvm_config_db#(uart_reg_block)::get(null, "" , "ral_model", ral_model)) begin
-		  `uvm_fatal("NO_RM", "ral_model not found in config_db")
-		end
-		
-		env_conf = Env_Config::type_id::create("env_conf");
-		if(!uvm_config_db#(Env_Config)::get(m_sequencer, "" , "env_conf", env_conf)) begin
-		  `uvm_fatal("No_Config", "env_conf not found in config_db for the Sequence")
-		end
-		
-		`uvm_info("Base Seq", $sformatf("DONE  the Pre-Body"), UVM_LOW)
-    endtask
   
 endclass

@@ -12,7 +12,7 @@ class  fastest_baud_test extends base_test;
 		lcr = 8'h03;
 		fcr = 8'hc0;
 		dl = 16'h0001;
-		super.configure_test(lcr, dl);
+		super.configure_test(lcr, dl, 25, 25);
 	
 		if(super.env_conf==null) `uvm_fatal("CFG ERR", "env_conf not created")
 		uvm_config_db#(Env_Config)::set(this,"env*","env_conf", super.env_conf);

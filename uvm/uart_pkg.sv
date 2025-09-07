@@ -13,14 +13,15 @@ package uart_pkg;
     import uvm_pkg::*;
 	import Env_Config_pkg::*;
 	import uart_ral_pkg::*;
+	import uart_tests_pkg::*;
 	import uart_wb_agent_pkg::*;
 	import uart_agent_pkg::*;
 	import uart_sequences_pkg::*;
+	
+	
 	`include "uart_scoreboard.svh"
 	`include "uart_env.svh"
 	`include "uart_virtual_sequence.svh"
-    `include "base_test.svh"
-	`include "fastest_baud_test.svh"
     
 endpackage: uart_pkg
 

@@ -108,6 +108,10 @@ class uart_monitor extends uvm_monitor;
 			if (vif.STX_PAD_O != 1) item.has_stop_error = 1;  // Framing error
 		end
 		 void'(mon2scb_port.try_put(item));
+        `uvm_info("UART_MONITOR", $sformatf("@%0t: Collected Transaction in UART_MON: \n %s",
+                              $time/1ns, 
+                              item.sprint()), 
+                              UVM_MEDIUM)
 	end
   endtask
 endclass

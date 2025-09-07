@@ -20,7 +20,7 @@ class uart_simple_rx_seq extends uvm_sequence #(uart_seq_item);
     virtual task body();
 		int num_transactions = 5;
 		int c = 1;
-		repeat(num_transactions) begin
+		repeat(env_conf.rx_transactions) begin
 			item = uart_seq_item::type_id::create("item");
 			`uvm_info("SIMPLE RX SEQUENCE", "STARTING NEW ITEM", UVM_MEDIUM)
 			if(c==num_transactions) item.last_item = 1;

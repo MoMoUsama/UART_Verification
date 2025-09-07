@@ -56,14 +56,14 @@ class uart_scoreboard extends uvm_scoreboard;
   function void write_wb(wb_seq_item t);
     if( !t.we && t.addr == 'd0 && !t.lcr[7]) begin //RBR
 	  RBR_q.push_back(t);
-      `uvm_info("SCOREBOARD write_wb()", $sformatf("@%0t: wb_seq_item Received \n %s",
+      `uvm_info("SCOREBOARD write_wb()", $sformatf("@%0t: RBR wb_seq_item Received \n %s",
                               $time/1ns, 
                               t.sprint()), 
                               UVM_MEDIUM);
 							  
     end else if (t.we && t.addr == 'd0 && !t.lcr[7]) begin //THR_q
 		THR_q.push_back(t);
-        `uvm_info("SCOREBOARD write_wb()", $sformatf("@%0t: wb_seq_item Received \n %s",
+        `uvm_info("SCOREBOARD write_wb()", $sformatf("@%0t: THR wb_seq_item Received \n %s",
                               $time/1ns, 
                               t.sprint()), 
                               UVM_MEDIUM);
