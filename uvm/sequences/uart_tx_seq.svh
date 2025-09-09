@@ -17,8 +17,6 @@ class uart_tx_seq extends base_seq;
 	if (!uvm_hdl_check_path("top.DUT.regs.lcr"))
 	`uvm_fatal("PATH", "Backdoor path invalid for write")
 	
-	// 1. apply reset 
-	apply_reset();
 	program_lcr(env_conf.lcr, env_conf.dll);
 		
 	// 2. Heavy TX Sequence

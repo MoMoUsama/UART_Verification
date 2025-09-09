@@ -60,8 +60,9 @@ class uart_reg_block extends uvm_reg_block;
 
 
 	  // Line Status Register (LSR) - address 0x5, RO
-	  LSR = uart_reg_lsr::type_id::create("LSR");
-	  LSR.configure(this, null, "LSR");
+	  LSR = uart_reg_lsr::type_id::create("lsr");
+	  LSR.configure(this, null, "lsr");
+	  LSR.add_hdl_path_slice("lsr", 0, 8);
 	  LSR.build();
 	  default_map.add_reg(LSR, 'd5, "RO");
 	  

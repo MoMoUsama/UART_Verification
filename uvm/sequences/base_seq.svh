@@ -20,19 +20,6 @@ class base_seq extends uvm_sequence #(wb_seq_item);
 		
 		`uvm_info("Base Seq", $sformatf("DONE  the Pre-Body"), UVM_LOW)
     endtask
-	
-	task apply_reset(); //doesn't go through the RAL Adapter
-		wb_seq_item req;
-		`uvm_info(get_type_name(), "Applying Reset...", UVM_MEDIUM)
-
-		// Assert reset
-		req = wb_seq_item::type_id::create("req");
-		req.rst = 1;
-		start_item(req);
-		finish_item(req);
-		ral_model.reset();
-		`uvm_info(get_type_name(), "", UVM_MEDIUM)
-	endtask
   
     task program_lcr(bit [7:0] val, bit [15:0] dll);
 		uvm_status_e status;

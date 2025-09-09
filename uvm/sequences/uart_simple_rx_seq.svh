@@ -18,20 +18,22 @@ class uart_simple_rx_seq extends uvm_sequence #(uart_seq_item);
     endtask
 	
     virtual task body();
-		int num_transactions = 5;
 		int c = 1;
 		repeat(env_conf.rx_transactions) begin
 			item = uart_seq_item::type_id::create("item");
 			`uvm_info("SIMPLE RX SEQUENCE", "STARTING NEW ITEM", UVM_MEDIUM)
-			if(c==num_transactions) item.last_item = 1;
-			else 					item.last_item = 0;
+			if(c==env_conf.rx_transactions) item.last_item = 1;
+			else 					        item.last_item = 0;
 			
+			if (m_sequencer.is_blocked(this))
+			  `uvm_info("DEBUG", "Sequencer is still blocked by this sequence!", UVM_LOW)
+					
 		    start_item(item);
 			`uvm_info("SIMPLE RX SEQUENCE", "after calling start_item()", UVM_MEDIUM)
 			if(!item.randomize())
 				`uvm_fatal("Randomization Failed", "Failed To Randomize uart_seq_item in Simple RX Sequence")
 				
-			`uvm_info("SIMPLE RX SEQUENCE", "AFTER RANDOMIZATION", UVM_MEDIUM)
+
 			if(env_conf.lcr[3]) begin //parity enables	
 				item.parity = parity_calculation(item);
 				if(env_conf.inject_parity_err) item.parity = !item.parity;

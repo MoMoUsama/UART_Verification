@@ -11,7 +11,7 @@ vlog ../REPO/uvm/top.sv
 
 # Run simulation and load wave.do for waveform view
 # +UVM_CONFIG_DB_TRACE
-vsim work.top +acc=rnb +UVM_VERBOSITY=UVM_HIGH -l simulation.log -do {
+vsim work.top +acc=rnb +UVM_VERBOSITY=UVM_HIGH +UVM_SEQ_ARB_TRACE -l simulation.log -do {
     
     # Load waveform configuration
     do wave.do

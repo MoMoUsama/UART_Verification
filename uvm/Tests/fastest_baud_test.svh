@@ -34,6 +34,7 @@ class  fastest_baud_test extends base_test;
 		init_vseq();
 		`uvm_info("TEST", "DONE VSEG INIT", UVM_MEDIUM)
 		vseq.start(null);
+		phase.phase_done.set_drain_time(this, 2ms);
 		phase.drop_objection(this);
 	endtask
 

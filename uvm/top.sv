@@ -1,7 +1,7 @@
 `timescale 1ns/1ps
 `include "./wb_agent/wb_intf.sv"
 import uvm_pkg::*; 
-import uart_pkg::*;
+import uart_tests_pkg::*;
 
 module top();
 

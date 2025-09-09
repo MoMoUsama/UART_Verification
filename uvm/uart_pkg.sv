@@ -13,7 +13,6 @@ package uart_pkg;
     import uvm_pkg::*;
 	import Env_Config_pkg::*;
 	import uart_ral_pkg::*;
-	import uart_tests_pkg::*;
 	import uart_wb_agent_pkg::*;
 	import uart_agent_pkg::*;
 	import uart_sequences_pkg::*;
@@ -24,4 +23,6 @@ package uart_pkg;
 	`include "uart_virtual_sequence.svh"
     
 endpackage: uart_pkg
+
+
 

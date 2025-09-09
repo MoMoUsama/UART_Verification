@@ -34,6 +34,8 @@ class uart_monitor extends uvm_monitor;
 	bit expected_parity;
 	logic [7:0] mask;
 	
+	super.run_phase(phase);
+	
 	case(this.env_conf.lcr[1:0])
 		2'b00: n_bits = 5;
 		2'b01: n_bits = 6;

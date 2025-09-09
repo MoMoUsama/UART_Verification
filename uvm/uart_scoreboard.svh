@@ -22,6 +22,8 @@ class uart_scoreboard extends uvm_scoreboard;
   wb_seq_item RBR_q[$];    //  Recieved data 
   uart_seq_item rx_q[$];       // data applied to RX Interface
   uart_seq_item tx_q[$];       // data collected from the TX interface
+  int num_of_compared_tx;
+  int num_of_compared_rx;
 
   // Constructor
   function new(string name = "uart_scoreboard", uvm_component parent = null);
@@ -102,7 +104,7 @@ class uart_scoreboard extends uvm_scoreboard;
 		begin //thread 2
 			  forever begin
 				if ( !empty && tx_q.size() == 0 && rx_q.size() == 0) begin// scoreboard queues empty
-					  #(env_conf.wb_cycles_per_bit * env_conf.SYS_CLK_PERIOD * 16);
+					  #(env_conf.wb_cycles_per_bit * env_conf.SYS_CLK_PERIOD * 24);
 					  empty = 1;
 				end
 				else if ( tx_q.size() == 0 && rx_q.size() == 0) break;
@@ -110,6 +112,7 @@ class uart_scoreboard extends uvm_scoreboard;
 		end
 	join_any   
     `uvm_info("Scoreboard", $sformatf("@%0t: The SCB Objection Dropped",$time/1ns), UVM_MEDIUM)
+	`uvm_info("Scoreboard", $sformatf("No. of comprared RX Transactions:%0d  No. of comprared TX Transactions:%0d", num_of_compared_rx, num_of_compared_rx ), UVM_MEDIUM)
     phase.drop_objection(this);
   endtask
 
@@ -121,6 +124,7 @@ class uart_scoreboard extends uvm_scoreboard;
           // Wait until items arrive
           wait (tx_q.size() > 0 && THR_q.size() > 0);
 
+		  num_of_compared_tx++;
           // Try to match transactions
           tx_item = tx_q.pop_front();
           wb_item = THR_q.pop_front();
@@ -145,6 +149,7 @@ class uart_scoreboard extends uvm_scoreboard;
           // Wait until items arrive
           wait (rx_q.size() > 0 && THR_q.size() > 0);
 
+		    num_of_compared_rx++;
           // Try to match transactions
           rx_item = rx_q.pop_front();
           wb_item = THR_q.pop_front();

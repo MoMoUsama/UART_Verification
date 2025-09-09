@@ -8,8 +8,10 @@ package uart_sequences_pkg;
   import uart_ral_pkg::*;
   
   `include "base_seq.svh"
+  `include "uart_reset_seq.svh"
   `include "uart_reg_access_seq.svh"
   `include "uart_simple_rx_seq.svh"
   `include "uart_tx_seq.svh"
+  `include "uart_polling_read_seq.svh"
   
 endpackage : uart_sequences_pkg

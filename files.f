@@ -13,6 +13,7 @@
 +incdir+../REPO/uvm/ral
 +incdir+../REPO/uvm/sequences
 +incdir+../REPO/uvm/Configs
++incdir+../REPO/uvm/Tests
 
 
 # ---------------------------
@@ -45,3 +46,10 @@
 # Top-Level UART Env Package
 # ---------------------------
 ../REPO/uvm/uart_pkg.sv
+
+# ---------------------------
+# Tests Package
+# ---------------------------
+../REPO/uvm/Tests/uart_tests_pkg.svh
+
+

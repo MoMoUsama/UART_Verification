@@ -30,7 +30,6 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 	uart_seq_item tr;
 	
 	super.run_phase(phase);
-	phase.raise_objection(this);
 	
 	case(this.env_conf.lcr[1:0])
 		2'b00: n_bits = 5;
@@ -40,9 +39,12 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 	endcase
 	
 	vif.SRX_PAD_I<=1'b1;
+	repeat(3) @(posedge vif.WBCLK);
 	
     forever begin
+			`uvm_info("UART_DRIVER", "Waiting for get_next_item", UVM_HIGH)
 			seq_item_port.get_next_item(tr);
+			`uvm_info("UART Driver", $sformatf("after get_next_item()"), UVM_MEDIUM)
 			void'(drv2scb_port.try_put(tr));
 			
 			`uvm_info("UART Driver", $sformatf("Received Item:\n%s", tr.sprint()), UVM_MEDIUM)
@@ -75,11 +77,8 @@ class uart_driver extends uvm_driver #(uart_seq_item);
 			
 			@(posedge vif.WBCLK); 
 			seq_item_port.item_done();
-			
-			if(tr.last_item) break;
 			`uvm_info("UART Driver", $sformatf("@%0t:  Item drived SUCCESFULLY", $time/1ns), UVM_MEDIUM)
     end
-	`uvm_info("UART Driver", $sformatf("@%0t:  Sequence Completed", $time/1ns), UVM_MEDIUM)
-	phase.drop_objection(this);
+	`uvm_info("UART Driver", $sformatf("@%0t:  Driver Completed Successfully", $time/1ns), UVM_MEDIUM)
   endtask
 endclass
